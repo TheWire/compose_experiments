@@ -57,6 +57,12 @@ class MainActivity : ComponentActivity() {
                     composable(route = "TEST_ROUTE_8") { navbackStackEntry ->
                         Screen8()
                     }
+                    composable(route = "TEST_ROUTE_9") { navbackStackEntry ->
+                        Screen9()
+                    }
+                    composable(route = "TEST_ROUTE_10") { navbackStackEntry ->
+                        Screen10()
+                    }
                 }
             }
         }

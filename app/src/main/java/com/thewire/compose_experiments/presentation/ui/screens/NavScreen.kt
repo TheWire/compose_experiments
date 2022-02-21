@@ -51,5 +51,15 @@ fun NavScreen(
         ) {
             Text("To Screen 8")
         }
+        Button(
+            onClick = { navController.navigate("TEST_ROUTE_9")}
+        ) {
+            Text("To Screen 9")
+        }
+        Button(
+            onClick = { navController.navigate("TEST_ROUTE_10")}
+        ) {
+            Text("To Screen 10")
+        }
     }
 }
