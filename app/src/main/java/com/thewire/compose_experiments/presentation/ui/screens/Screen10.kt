@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.thewire.compose_experiments.R
+import com.thewire.compose_experiments.presentation.ui.layouts.printConstraints
 
 @Composable
 fun Screen10() {

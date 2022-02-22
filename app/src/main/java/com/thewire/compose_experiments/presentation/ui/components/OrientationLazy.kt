@@ -31,14 +31,14 @@ fun OrientationLazy(
             LazyRow(
                 modifier = modifier,
             ) {
-                content(contentModifier.fillMaxHeight())
+                content(contentModifier.fillMaxHeight().widthIn(400.dp, 600.dp))
             }
         }
         ORIENTATION_PORTRAIT -> {
             LazyColumn(
                 modifier = modifier,
             ) {
-                content(contentModifier.fillMaxWidth())
+                content(contentModifier.fillMaxWidth().heightIn(300.dp, 400.dp))
             }
         }
     }
