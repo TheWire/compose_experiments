@@ -24,7 +24,8 @@ fun Screen3(
                 ListThingCard(
                     modifier = modifier
                         .padding(10.dp),
-                    listThing = thing
+                    listThing = thing,
+                    imageCall = viewModel::getImage,
                 )
             }
         }

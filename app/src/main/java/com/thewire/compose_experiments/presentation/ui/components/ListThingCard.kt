@@ -1,36 +1,45 @@
 package com.thewire.compose_experiments.presentation.ui.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thewire.compose_experiments.R
+import com.thewire.compose_experiments.backend.getImages
 import com.thewire.compose_experiments.presentation.ui.experimental3.ExampleListThing
 import com.thewire.compose_experiments.presentation.ui.layouts.MyOwnLayout
 import com.thewire.compose_experiments.presentation.ui.theme.Compose_experimentsTheme
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ListThingCard(
     modifier: Modifier = Modifier,
-    listThing: ExampleListThing
+    listThing: ExampleListThing,
+    imageCall: () -> Flow<Int>
 ) {
+    val image = imageCall().collectAsState(R.drawable.default_img)
     Card(
         modifier = modifier,
         backgroundColor = Color.Magenta
     ) {
         MyOwnLayout(
             modifier = Modifier
+                .animateContentSize()
                 .background(color = Color.Yellow),
             header = {
                 Row(
                     modifier = Modifier
+                        .animateContentSize()
                         .background(color = Color.Cyan),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -46,10 +55,11 @@ fun ListThingCard(
                     )
                 }
             },
-            image = painterResource(R.drawable.starship)
+            image = painterResource(image.value)
         ) {
             Column(
                 modifier = Modifier
+                    .animateContentSize()
                     .background(color = Color.LightGray)
                     .width(150.dp)
             ) {
@@ -83,7 +93,8 @@ fun PreviewThing() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
-                listThing = thing
+                listThing = thing,
+                imageCall = { getImages() }
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.thewire.compose_experiments.presentation.ui.layouts
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ fun MyOwnLayout(
             content()
             Image(
                 modifier = Modifier
+                    .animateContentSize()
                     .fillMaxSize()
                     .background(Color.Red),
                 painter = image,

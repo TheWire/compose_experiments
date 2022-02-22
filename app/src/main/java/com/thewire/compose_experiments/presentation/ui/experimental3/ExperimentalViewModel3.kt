@@ -1,6 +1,9 @@
 package com.thewire.compose_experiments.presentation.ui.experimental3
 
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.lifecycle.ViewModel
+import com.thewire.compose_experiments.backend.getImages
+import kotlinx.coroutines.flow.Flow
 
 class ExperimentalViewModel3 : ViewModel() {
     val list = mutableListOf<ExampleListThing>(
@@ -37,6 +40,10 @@ class ExperimentalViewModel3 : ViewModel() {
                     "Navis resisteres, tanquam primus ionicis tormento.Blueberries paste" +
                     " has to have a divided, aged zucchini component.God, never scrape a son."),
     )
+
+    fun getImage(): Flow<Int> {
+        return getImages()
+    }
 }
 
 
