@@ -16,6 +16,7 @@ import com.thewire.compose_experiments.presentation.ui.RowTest
 import com.thewire.compose_experiments.presentation.ui.experiment2.ExperimentalViewModel2
 import com.thewire.compose_experiments.presentation.ui.experimental1.ExperimentalViewModel1
 import com.thewire.compose_experiments.presentation.ui.experimental3.ExperimentalViewModel3
+import com.thewire.compose_experiments.presentation.ui.experimental9.ExperimentalViewModel9
 import com.thewire.compose_experiments.presentation.ui.screens.*
 import com.thewire.compose_experiments.presentation.ui.theme.Compose_experimentsTheme
 
@@ -58,7 +59,8 @@ class MainActivity : ComponentActivity() {
                         Screen8()
                     }
                     composable(route = "TEST_ROUTE_9") { navbackStackEntry ->
-                        Screen9()
+                        val viewModel9: ExperimentalViewModel9 by viewModels()
+                        Screen9(viewModel = viewModel9)
                     }
                     composable(route = "TEST_ROUTE_10") { navbackStackEntry ->
                         Screen10()
