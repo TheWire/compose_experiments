@@ -7,8 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -111,7 +111,7 @@ fun ColoredBar(color: Color) {
 fun testLazyGrid() {
     val list = (1..600).map { it.toString() }
     LazyVerticalGrid(
-        cells = GridCells.Adaptive(128.dp)
+        columns = GridCells.Adaptive(128.dp)
     ) {
         items(list.size) { index ->
             Text("item ${list[index]}")
