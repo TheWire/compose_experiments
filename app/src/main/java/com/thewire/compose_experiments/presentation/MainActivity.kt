@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,7 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Compose_experimentsTheme {
-            val navController = rememberNavController()
+                val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "NAV_ROUTE") {
                     composable(route = "NAV_ROUTE") { navbackStackEntry ->
                         NavScreen(navController)
@@ -67,6 +65,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = "TEST_ROUTE_11") { navbackStackEntry ->
                         Screen11()
+                    }
+                    composable(route = "TEST_ROUTE_12") { navbackStackEntry ->
+                        Screen12()
+                    }
+                    composable(route = "TEST_ROUTE_13") { navbackStackEntry ->
+                        Screen13()
                     }
                 }
             }
