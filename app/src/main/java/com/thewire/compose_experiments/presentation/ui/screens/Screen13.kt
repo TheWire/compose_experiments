@@ -2,8 +2,10 @@ package com.thewire.compose_experiments.presentation.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.Text
@@ -43,13 +45,19 @@ fun Screen13() {
         modifier = Modifier
             .fillMaxSize()
             .pullRefresh(state)
-            .background(color = if (refreshing) Color.Blue else if(refreshed) Color.Magenta else Color.Green)
+            .background(color = if (refreshing) Color.Blue else if (refreshed) Color.Magenta else Color.Green)
     ) {
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(itemCount) {
-                ListItem { Text(text = "Item ${itemCount - it}")}
+        Column() {
+            Button(onClick = { refreshing = !refreshing}) {
+                Text(text = "Refreshing")
+            }
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(itemCount) {
+                    ListItem { Text(text = "Item ${itemCount - it}")}
+                }
             }
         }
+        
         PullRefreshIndicator(
             refreshing = refreshing,
             state = state,
