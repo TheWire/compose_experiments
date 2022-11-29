@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -18,7 +19,7 @@ import com.thewire.compose_experiments.presentation.ui.experimental9.Experimenta
 import com.thewire.compose_experiments.presentation.ui.screens.*
 import com.thewire.compose_experiments.presentation.ui.theme.Compose_experimentsTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -71,6 +72,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = "TEST_ROUTE_13") { navbackStackEntry ->
                         Screen13()
+                    }
+                    composable(route = "TEST_ROUTE_14") { navbackStackEntry ->
+                        Screen14()
                     }
                 }
             }
