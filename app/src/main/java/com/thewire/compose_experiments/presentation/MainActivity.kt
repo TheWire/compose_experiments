@@ -2,7 +2,6 @@ package com.thewire.compose_experiments.presentation
 
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -79,7 +78,9 @@ class MainActivity : AppCompatActivity() {
                     composable(route = "TEST_ROUTE_15") { navbackStackEntry ->
                         Screen15()
                     }
-                }
+                    composable(route = "TEST_ROUTE_16") { navbackStackEntry ->
+                        Screen16()
+                    }}
             }
         }
     }

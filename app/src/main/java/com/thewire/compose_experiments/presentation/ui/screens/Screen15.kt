@@ -1,14 +1,17 @@
 package com.thewire.compose_experiments.presentation.ui.screens
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -19,36 +22,60 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFram
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Screen15() {
     val fullscreen = remember { mutableStateOf(false)}
-        Text("this is the video screen")
-        val v = AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { context ->
-                val player = YouTubePlayerView(context)
-                player.enableAutomaticInitialization = false
-                val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
-                player.initialize(getPlayer(player, fullscreen), options)
-                player
-            }
-        )
-
         if(fullscreen.value) {
             Dialog(
                 onDismissRequest = {
                     fullscreen.value = false
                     Log.d("DIALOG", "dialog dismissed")
                 },
-                properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true)
+                properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true, usePlatformDefaultWidth = false)
             ) {
-                Column() {
-                    Text("dialog open")
-                    v
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color.Yellow)
+                ) {
+                    AndroidView(
+                    modifier = Modifier
+                        .background(color= Color.Green),
+                    factory = { context ->
+                        val player = YouTubePlayerView(context)
+                        player.enableAutomaticInitialization = false
+                        val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
+                        player.initialize(getPlayer(player, fullscreen), options)
+                        player
+                    }
+                )
                 }
             }
         } else {
-            v
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+            ) {
+                Text("non fullscreen")
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .background(color = Color.Yellow)
+//                ) {}
+                AndroidView(
+                    modifier = Modifier
+                        .background(color= Color.Green),
+                    factory = { context ->
+                        val player = YouTubePlayerView(context)
+                        player.enableAutomaticInitialization = false
+                        val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
+                        player.initialize(getPlayer(player, fullscreen), options)
+                        player
+                    }
+                )
+
+            }
         }
 
 
@@ -66,11 +93,11 @@ fun getPlayer(playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>):
             // When the video is in full-screen, cover the entire screen
             defaultPlayerUiController.setFullScreenButtonClickListener {
                 if (playerView.isFullScreen()) {
-                    fullscreen.value = true
+                    fullscreen.value = false
                     playerView.exitFullScreen()
 
                 } else {
-                    fullscreen.value = false
+                    fullscreen.value = true
                     playerView.enterFullScreen()
                 }
             }

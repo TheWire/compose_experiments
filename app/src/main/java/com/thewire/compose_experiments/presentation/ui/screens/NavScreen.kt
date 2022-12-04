@@ -1,9 +1,12 @@
 package com.thewire.compose_experiments.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
@@ -20,7 +23,10 @@ fun NavScreen(
             Text("This is the drawer")
         }
     ) {
-        Column() {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+        ) {
             Button(
                 onClick = { navController.navigate("TEST_ROUTE_1") }
             ) {
@@ -94,7 +100,12 @@ fun NavScreen(
             Button(
                 onClick = { navController.navigate("TEST_ROUTE_15") }
             ) {
-                Text("To Screen 15")
+                Text("YouTube Video")
+            }
+            Button(
+                onClick = { navController.navigate("TEST_ROUTE_16") }
+            ) {
+                Text("Dialog")
             }
             Button(
                 onClick = {
