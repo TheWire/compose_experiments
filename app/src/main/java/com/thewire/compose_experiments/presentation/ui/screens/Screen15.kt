@@ -1,6 +1,7 @@
 package com.thewire.compose_experiments.presentation.ui.screens
 
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -19,8 +20,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
+
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -40,16 +43,18 @@ fun Screen15() {
                         .background(color = Color.Yellow)
                 ) {
                     AndroidView(
-                    modifier = Modifier
-                        .background(color= Color.Green),
-                    factory = { context ->
-                        val player = YouTubePlayerView(context)
-                        player.enableAutomaticInitialization = false
-                        val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
-                        player.initialize(getPlayer(player, fullscreen), options)
-                        player
-                    }
-                )
+                        modifier = Modifier
+                            .background(color= Color.Green),
+                        factory = { context ->
+                            val layout = LinearLayout(context)
+                            val player = YouTubePlayerView(context)
+                            layout.addView(player)
+                            player.enableAutomaticInitialization = false
+                            val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
+                            player.initialize(getPlayer(player, fullscreen), options)
+                            layout
+                        }
+                    )
                 }
             }
         } else {
@@ -67,14 +72,15 @@ fun Screen15() {
                     modifier = Modifier
                         .background(color= Color.Green),
                     factory = { context ->
+                        val layout = LinearLayout(context)
                         val player = YouTubePlayerView(context)
+                        layout.addView(player)
                         player.enableAutomaticInitialization = false
                         val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
                         player.initialize(getPlayer(player, fullscreen), options)
-                        player
+                        layout
                     }
                 )
-
             }
         }
 
@@ -85,6 +91,8 @@ fun getPlayer(playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>):
 
     val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
+            val tracker = YouTubePlayerTracker()
+            youTubePlayer.addListener(tracker)
             // We're using pre-made custom ui
             val defaultPlayerUiController =
                 DefaultPlayerUiController(playerView, youTubePlayer)
@@ -92,14 +100,7 @@ fun getPlayer(playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>):
 
             // When the video is in full-screen, cover the entire screen
             defaultPlayerUiController.setFullScreenButtonClickListener {
-                if (playerView.isFullScreen()) {
-                    fullscreen.value = false
-                    playerView.exitFullScreen()
-
-                } else {
-                    fullscreen.value = true
-                    playerView.enterFullScreen()
-                }
+                fullscreen.value = !fullscreen.value
             }
 
 

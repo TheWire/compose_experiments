@@ -80,7 +80,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     composable(route = "TEST_ROUTE_16") { navbackStackEntry ->
                         Screen16()
-                    }}
+                    }
+                    composable(route = "TEST_ROUTE_17") { navbackStackEntry ->
+                        Screen17()
+                    }
+                }
             }
         }
     }

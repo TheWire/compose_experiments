@@ -1,6 +1,7 @@
 package com.thewire.compose_experiments.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -25,6 +26,7 @@ fun NavScreen(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
             Button(
@@ -106,6 +108,11 @@ fun NavScreen(
                 onClick = { navController.navigate("TEST_ROUTE_16") }
             ) {
                 Text("Dialog")
+            }
+            Button(
+                onClick = { navController.navigate("TEST_ROUTE_17") }
+            ) {
+                Text("WebView")
             }
             Button(
                 onClick = {
