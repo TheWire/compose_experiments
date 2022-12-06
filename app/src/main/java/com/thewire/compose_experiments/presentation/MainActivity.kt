@@ -84,6 +84,9 @@ class MainActivity : AppCompatActivity() {
                     composable(route = "TEST_ROUTE_17") { navbackStackEntry ->
                         Screen17()
                     }
+                    composable(route = "TEST_ROUTE_18") { navbackStackEntry ->
+                        Screen18()
+                    }
                 }
             }
         }

@@ -115,6 +115,11 @@ fun NavScreen(
                 Text("WebView")
             }
             Button(
+                onClick = { navController.navigate("TEST_ROUTE_18") }
+            ) {
+                Text("To Screen 18")
+            }
+            Button(
                 onClick = {
                     scope.launch {
                         drawerState.open()

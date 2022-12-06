@@ -1,9 +1,13 @@
 package com.thewire.compose_experiments.presentation.ui.screens
 
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -12,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -24,10 +29,11 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTube
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Screen15() {
+    val configuration = LocalConfiguration.current
+    Log.i("YOUTUBE", configuration.screenHeightDp.toString())
     val fullscreen = remember { mutableStateOf(false)}
         if(fullscreen.value) {
             Dialog(
@@ -37,31 +43,33 @@ fun Screen15() {
                 },
                 properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true, usePlatformDefaultWidth = false)
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Color.Yellow)
-                ) {
+                    val width = (configuration.screenHeightDp / 9) * 16
                     AndroidView(
                         modifier = Modifier
-                            .background(color= Color.Green),
+                            .width(width.dp)
+                            .height(configuration.screenHeightDp.dp)
+                            .background(color= Color.Green)
+                            .border(BorderStroke(2.dp, Color.Magenta)),
                         factory = { context ->
-                            val layout = LinearLayout(context)
-                            val player = YouTubePlayerView(context)
-                            layout.addView(player)
+                            val view = LayoutInflater.from(context).inflate(com.thewire.compose_experiments.R.layout.youtubelayout, null, false)
+                            val player = view.findViewById<YouTubePlayerView>(com.thewire.compose_experiments.R.id.youtube_player_view)
                             player.enableAutomaticInitialization = false
                             val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
                             player.initialize(getPlayer(player, fullscreen), options)
-                            layout
+                            view
                         }
                     )
-                }
             }
         } else {
             Column(
                 modifier = Modifier
                     .padding(10.dp)
             ) {
+                Button(
+                    onClick = {fullscreen.value = !fullscreen.value}
+                ) {
+                    Text("Toggle Fullscreen")
+                }
                 Text("non fullscreen")
 //                Box(
 //                    modifier = Modifier
