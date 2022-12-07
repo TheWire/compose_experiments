@@ -9,10 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,12 +26,33 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTube
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Screen15() {
     val configuration = LocalConfiguration.current
     Log.i("YOUTUBE", configuration.screenHeightDp.toString())
-    val fullscreen = remember { mutableStateOf(false)}
+    val width = (configuration.screenHeightDp / 9) * 16
+    val fullscreen = remember { mutableStateOf(false) }
+    val youtubeplayer = remember {
+        movableContentOf {
+            AndroidView(
+                modifier = Modifier
+                    .width(width.dp)
+                    .height(configuration.screenHeightDp.dp)
+                    .background(color= Color.Green)
+                    .border(BorderStroke(2.dp, Color.Magenta)),
+                factory = { context ->
+                    val view = LayoutInflater.from(context).inflate(com.thewire.compose_experiments.R.layout.youtubelayout, null, false)
+                    val player = view.findViewById<YouTubePlayerView>(com.thewire.compose_experiments.R.id.youtube_player_view)
+                    player.enableAutomaticInitialization = false
+                    val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
+                    player.initialize(getPlayer(player, fullscreen), options)
+                    view
+                }
+            )
+        }
+    }
         if(fullscreen.value) {
             Dialog(
                 onDismissRequest = {
@@ -43,22 +61,7 @@ fun Screen15() {
                 },
                 properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = true, usePlatformDefaultWidth = false)
             ) {
-                    val width = (configuration.screenHeightDp / 9) * 16
-                    AndroidView(
-                        modifier = Modifier
-                            .width(width.dp)
-                            .height(configuration.screenHeightDp.dp)
-                            .background(color= Color.Green)
-                            .border(BorderStroke(2.dp, Color.Magenta)),
-                        factory = { context ->
-                            val view = LayoutInflater.from(context).inflate(com.thewire.compose_experiments.R.layout.youtubelayout, null, false)
-                            val player = view.findViewById<YouTubePlayerView>(com.thewire.compose_experiments.R.id.youtube_player_view)
-                            player.enableAutomaticInitialization = false
-                            val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
-                            player.initialize(getPlayer(player, fullscreen), options)
-                            view
-                        }
-                    )
+                    youtubeplayer()
             }
         } else {
             Column(
@@ -76,19 +79,7 @@ fun Screen15() {
 //                        .fillMaxSize()
 //                        .background(color = Color.Yellow)
 //                ) {}
-                AndroidView(
-                    modifier = Modifier
-                        .background(color= Color.Green),
-                    factory = { context ->
-                        val layout = LinearLayout(context)
-                        val player = YouTubePlayerView(context)
-                        layout.addView(player)
-                        player.enableAutomaticInitialization = false
-                        val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
-                        player.initialize(getPlayer(player, fullscreen), options)
-                        layout
-                    }
-                )
+                youtubeplayer()
             }
         }
 
