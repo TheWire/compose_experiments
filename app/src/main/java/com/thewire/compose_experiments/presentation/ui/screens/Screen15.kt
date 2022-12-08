@@ -2,7 +2,6 @@ package com.thewire.compose_experiments.presentation.ui.screens
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,20 +17,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
+import com.thewire.compose_experiments.presentation.ui.experiemental15.ExperimentalViewModel15
+import com.thewire.compose_experiments.presentation.ui.experiemental15.ExperimentalViewModel15Event.*
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Screen15() {
+fun Screen15(viewModel: ExperimentalViewModel15) {
+    LaunchedEffect(key1 = viewModel) {
+        Log.i("YOUTUBE", "launch")
+        viewModel.onEvent(OnLifeCycleChange(true))
+    }
+
     val configuration = LocalConfiguration.current
-    Log.i("YOUTUBE", configuration.screenHeightDp.toString())
     val width = (configuration.screenHeightDp / 9) * 16
     val fullscreen = remember { mutableStateOf(false) }
     val youtubeplayer = remember {
@@ -40,17 +45,23 @@ fun Screen15() {
                 modifier = Modifier
                     .width(width.dp)
                     .height(configuration.screenHeightDp.dp)
-                    .background(color= Color.Green)
+                    .background(color = Color.Green)
                     .border(BorderStroke(2.dp, Color.Magenta)),
                 factory = { context ->
                     val view = LayoutInflater.from(context).inflate(com.thewire.compose_experiments.R.layout.youtubelayout, null, false)
                     val player = view.findViewById<YouTubePlayerView>(com.thewire.compose_experiments.R.id.youtube_player_view)
                     player.enableAutomaticInitialization = false
                     val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
-                    player.initialize(getPlayer(player, fullscreen), options)
+                    player.initialize(getPlayerListener(player, fullscreen, viewModel), options)
                     view
                 }
             )
+        }
+    }
+    DisposableEffect(key1 = viewModel) {
+        onDispose {
+            viewModel.onEvent(OnLifeCycleChange(false))
+            Log.i("YOUTUBE", "dispose")
         }
     }
         if(fullscreen.value) {
@@ -74,11 +85,6 @@ fun Screen15() {
                     Text("Toggle Fullscreen")
                 }
                 Text("non fullscreen")
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .background(color = Color.Yellow)
-//                ) {}
                 youtubeplayer()
             }
         }
@@ -86,12 +92,13 @@ fun Screen15() {
 
 }
 
-fun getPlayer(playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>): YouTubePlayerListener {
+fun getPlayerListener(
+    playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>,
+    viewModel: ExperimentalViewModel15
+): YouTubePlayerListener {
 
     val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
-            val tracker = YouTubePlayerTracker()
-            youTubePlayer.addListener(tracker)
             // We're using pre-made custom ui
             val defaultPlayerUiController =
                 DefaultPlayerUiController(playerView, youTubePlayer)
@@ -106,7 +113,31 @@ fun getPlayer(playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>):
             playerView.setCustomPlayerUi(defaultPlayerUiController.rootView)
 
             val videoId = "ZUs8oKa7fqw"
-            youTubePlayer.cueVideo(videoId, 0f)
+            when (viewModel.videoState) {
+                "UNSTARTED" -> {
+                    youTubePlayer.cueVideo(videoId, 0f)
+                }
+                "PAUSED" -> {
+                    youTubePlayer.cueVideo(videoId, viewModel.videoSeconds)
+                }
+                "PLAYING", "BUFFERING" -> {
+                    youTubePlayer.loadVideo(videoId, viewModel.videoSeconds)
+                }
+            }
+        }
+
+        override fun onStateChange(
+            youTubePlayer: YouTubePlayer,
+            state: PlayerConstants.PlayerState
+        ) {
+            super.onStateChange(youTubePlayer, state)
+            Log.i("YOUTUBE", state.toString())
+            viewModel.onEvent(OnStateChange(state.toString()))
+        }
+
+        override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+            super.onCurrentSecond(youTubePlayer, second)
+            viewModel.onEvent(OnSecondChange(second))
         }
     }
     return listener

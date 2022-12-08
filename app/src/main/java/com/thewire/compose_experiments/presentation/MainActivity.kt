@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.thewire.compose_experiments.presentation.ui.RowTest
+import com.thewire.compose_experiments.presentation.ui.experiemental15.ExperimentalViewModel15
 import com.thewire.compose_experiments.presentation.ui.experiment2.ExperimentalViewModel2
 import com.thewire.compose_experiments.presentation.ui.experimental1.ExperimentalViewModel1
 import com.thewire.compose_experiments.presentation.ui.experimental3.ExperimentalViewModel3
@@ -76,7 +77,8 @@ class MainActivity : AppCompatActivity() {
                         Screen14()
                     }
                     composable(route = "TEST_ROUTE_15") { navbackStackEntry ->
-                        Screen15()
+                        val viewModel15: ExperimentalViewModel15 by viewModels()
+                        Screen15(viewModel = viewModel15)
                     }
                     composable(route = "TEST_ROUTE_16") { navbackStackEntry ->
                         Screen16()
