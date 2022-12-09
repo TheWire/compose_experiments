@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     composable(route = "TEST_ROUTE_15") { navbackStackEntry ->
                         val viewModel15: ExperimentalViewModel15 by viewModels()
+                        lifecycle.addObserver(viewModel15)
                         Screen15(viewModel = viewModel15)
                     }
                     composable(route = "TEST_ROUTE_16") { navbackStackEntry ->

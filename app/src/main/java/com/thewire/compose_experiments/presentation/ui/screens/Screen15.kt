@@ -13,6 +13,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -39,6 +40,7 @@ fun Screen15(viewModel: ExperimentalViewModel15) {
     val configuration = LocalConfiguration.current
     val width = (configuration.screenHeightDp / 9) * 16
     val fullscreen = remember { mutableStateOf(false) }
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
     val youtubeplayer = remember {
         movableContentOf {
             AndroidView(
@@ -52,6 +54,7 @@ fun Screen15(viewModel: ExperimentalViewModel15) {
                     val player = view.findViewById<YouTubePlayerView>(com.thewire.compose_experiments.R.id.youtube_player_view)
                     player.enableAutomaticInitialization = false
                     val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
+                    lifecycle.addObserver(player)
                     player.initialize(getPlayerListener(player, fullscreen, viewModel), options)
                     view
                 }
@@ -123,6 +126,7 @@ fun getPlayerListener(
                 "PLAYING", "BUFFERING" -> {
                     youTubePlayer.loadVideo(videoId, viewModel.videoSeconds)
                 }
+                else -> {}
             }
         }
 
@@ -139,6 +143,7 @@ fun getPlayerListener(
             super.onCurrentSecond(youTubePlayer, second)
             viewModel.onEvent(OnSecondChange(second))
         }
+
     }
     return listener
 }
