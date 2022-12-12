@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -41,6 +43,7 @@ fun Screen15(viewModel: ExperimentalViewModel15) {
     val width = (configuration.screenHeightDp / 9) * 16
     val fullscreen = remember { mutableStateOf(false) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val systemUiController: SystemUiController = rememberSystemUiController()
     val youtubeplayer = remember {
         movableContentOf {
             AndroidView(
@@ -55,7 +58,7 @@ fun Screen15(viewModel: ExperimentalViewModel15) {
                     player.enableAutomaticInitialization = false
                     val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
                     lifecycle.addObserver(player)
-                    player.initialize(getPlayerListener(player, fullscreen, viewModel), options)
+                    player.initialize(getPlayerListener(player, fullscreen, viewModel, systemUiController), options)
                     view
                 }
             )
@@ -97,7 +100,8 @@ fun Screen15(viewModel: ExperimentalViewModel15) {
 
 fun getPlayerListener(
     playerView: YouTubePlayerView, fullscreen: MutableState<Boolean>,
-    viewModel: ExperimentalViewModel15
+    viewModel: ExperimentalViewModel15,
+    systemUiController: SystemUiController,
 ): YouTubePlayerListener {
 
     val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
@@ -110,6 +114,7 @@ fun getPlayerListener(
             // When the video is in full-screen, cover the entire screen
             defaultPlayerUiController.setFullScreenButtonClickListener {
                 fullscreen.value = !fullscreen.value
+                systemUiController.isSystemBarsVisible = !fullscreen.value
             }
 
 
