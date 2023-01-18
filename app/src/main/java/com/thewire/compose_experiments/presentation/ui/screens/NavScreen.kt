@@ -125,6 +125,11 @@ fun NavScreen(
                 Text("To Screen 19")
             }
             Button(
+                onClick = { navController.navigate("TEST_ROUTE_20") }
+            ) {
+                Text("Button + Gesture")
+            }
+            Button(
                 onClick = {
                     scope.launch {
                         drawerState.open()

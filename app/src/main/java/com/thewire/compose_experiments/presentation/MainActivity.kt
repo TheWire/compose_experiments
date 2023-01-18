@@ -95,6 +95,9 @@ class MainActivity : AppCompatActivity() {
                         val viewModel19: ExperimentalViewModel19 by viewModels()
                         Screen19(viewModel = viewModel19)
                     }
+                    composable(route = "TEST_ROUTE_20") { navbackStackEntry ->
+                        Screen20()
+                    }
                 }
             }
         }
