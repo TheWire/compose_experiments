@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Compose_experimentsTheme {
+            Compose_experimentsTheme(darkTheme = false) {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "NAV_ROUTE") {
                     composable(route = "NAV_ROUTE") { navbackStackEntry ->
@@ -100,6 +100,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     composable(route = "TEST_ROUTE_21") { navbackStackEntry ->
                         Screen21()
+                    }
+                    composable(route = "TEST_ROUTE_22") { navbackStackEntry ->
+                        Screen22()
                     }
                 }
             }
