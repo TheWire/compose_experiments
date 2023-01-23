@@ -1,0 +1,3 @@
+[submodule "library_experiment"]
+	path = library_experiment
+	url = https://github.com/TheWire/library_experiment.git

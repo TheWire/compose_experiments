@@ -3,8 +3,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "compose_experiments"
 include ':app'
+include ':experimentalLibrary'
+project(':experimentalLibrary').projectDir = new File(rootDir, 'library_experiment/experimentalLibrary/')
+

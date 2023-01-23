@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.thewire.compose_experiments"
-        minSdk 21
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -52,7 +52,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition-common:+'
     implementation files('src/main/java/com/thewire/compose_experiments/libs/YouTubeAndroidPlayerApi.jar')
-    def appcompat_version = '1.5.1'
+    def appcompat_version = '1.6.0'
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     def material_version = '1.7.0'
     implementation "com.google.android.material:material:$material_version"
@@ -64,8 +64,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
@@ -92,6 +92,8 @@ dependencies {
     def androidyoutubeplayer_version = "11.1.0"
     implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:$androidyoutubeplayer_version"
 
-    def accompanist_version = "0.27.1"
+    def accompanist_version = "0.28.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
+    implementation project(":experimentalLibrary")
 }
