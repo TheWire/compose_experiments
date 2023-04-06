@@ -125,6 +125,9 @@ class MainActivity : AppCompatActivity() {
                         viewModel23.id = id
                         Screen23(viewModel = viewModel23, str = str, navController=navController)
                     }
+                    composable(route = "TEST_ROUTE_24") { navBackStackEntry ->
+                        Screen24()
+                    }
                 }
             }
         }
