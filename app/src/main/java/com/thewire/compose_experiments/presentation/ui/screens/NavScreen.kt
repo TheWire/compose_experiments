@@ -150,6 +150,11 @@ fun NavScreen(
                 Text("Pager")
             }
             Button(
+                onClick = { navController.navigate("TEST_ROUTE_25") }
+            ) {
+                Text("To Screen 25")
+            }
+            Button(
                 onClick = {
                     scope.launch {
                         drawerState.open()
