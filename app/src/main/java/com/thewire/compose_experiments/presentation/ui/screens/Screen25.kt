@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -19,6 +21,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -46,6 +49,31 @@ fun Screen25() {
         WebCard()
         AltCard()
         SpaceThing()
+        FilterGrid()
+    }
+}
+
+@Composable
+fun Chip(text: String) {
+    Button(
+        onClick = {},
+    ) {
+        Icon(Icons.Default.Check, contentDescription = "menu")
+        Text(text)
+    }
+}
+
+@Composable
+fun FilterGrid() {
+    LazyVerticalGrid(
+        modifier = Modifier.height(300.dp),
+        columns = GridCells.Fixed(3),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(9) {
+            Chip("filter")
+        }
     }
 }
 
