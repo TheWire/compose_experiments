@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.thewire.compose_experiments.R
+import kotlin.random.Random
 
 @Composable
 fun Screen25() {
@@ -56,6 +59,7 @@ fun Screen25() {
         AltCard()
         SpaceThing()
         FilterGrid()
+        FilterFlow()
     }
 }
 
@@ -66,9 +70,9 @@ fun Preview() {
 }
 
 @Composable
-fun Chip(text: String) {
+fun Chip(text: String, modifier: Modifier = Modifier) {
     Button(
-        modifier = Modifier
+        modifier = modifier
             .height(32.dp),
         onClick = {},
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Gray),
@@ -92,6 +96,27 @@ fun Chip(text: String) {
             )
         }
     }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun FilterFlow() {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        for(i in 0..9) {
+            Chip(randomString(), modifier = Modifier.padding(0.dp, 8.dp))
+        }
+    }
+}
+
+fun randomString() : String {
+    val num = Random.nextInt(0, 10)
+    var str = ""
+    for(i in 0..num) {
+        str += Random.nextInt(97, 122).toChar()
+    }
+    return str
 }
 
 @Composable
