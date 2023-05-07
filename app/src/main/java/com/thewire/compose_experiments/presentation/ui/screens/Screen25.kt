@@ -23,6 +23,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.Tab
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,6 +31,10 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -60,13 +65,14 @@ fun Screen25() {
         SpaceThing()
         FilterGrid()
         FilterFlow()
+        TabThing()
     }
 }
 
 @Preview
 @Composable
 fun Preview() {
-    FilterGrid()
+    Screen25()
 }
 
 @Composable
@@ -122,7 +128,7 @@ fun randomString() : String {
 @Composable
 fun FilterGrid() {
     LazyVerticalGrid(
-        modifier = Modifier.height(300.dp),
+        modifier = Modifier.height(150.dp),
         columns = GridCells.Fixed(3),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -201,6 +207,27 @@ fun SpaceThing() {
             Icon(Icons.Default.Add, contentDescription = "add")
         }
         Icon(Icons.Default.Close, contentDescription = "close")
+    }
+}
+
+@Composable
+fun TabThing() {
+    var selected by remember { mutableStateOf(false) }
+    Button(
+        onClick = { selected = !selected }
+    ) {
+        Text("Tab")
+    }
+    Tab(selected, {}) {
+        Column() {
+            Text(
+"                ne non putent nostra habeo blandit lacus comprehensam luctus dicant scripserit" +
+        " sociis facilisi enim impetus noster quaeque non expetenda adhuc voluptatum vituperatoribus " +
+        "conclusionemque regione erat voluptatum atqui turpis curabitur sea dicant qualisque sententiae " +
+        "rutrum maluisset persecuti pretium interdum diam constituam auctor montes error sed vim " +
+        "lacinia semper hinc"
+)
+        }
     }
 }
 
