@@ -24,6 +24,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -110,16 +111,16 @@ fun FilterFlow() {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        for(i in 0..9) {
+        for (i in 0..9) {
             Chip(randomString(), modifier = Modifier.padding(0.dp, 8.dp))
         }
     }
 }
 
-fun randomString() : String {
+fun randomString(): String {
     val num = Random.nextInt(0, 10)
     var str = ""
-    for(i in 0..num) {
+    for (i in 0..num) {
         str += Random.nextInt(97, 122).toChar()
     }
     return str
@@ -218,16 +219,30 @@ fun TabThing() {
     ) {
         Text("Tab")
     }
-    Tab(selected, {}) {
-        Column() {
-            Text(
-"                ne non putent nostra habeo blandit lacus comprehensam luctus dicant scripserit" +
-        " sociis facilisi enim impetus noster quaeque non expetenda adhuc voluptatum vituperatoribus " +
-        "conclusionemque regione erat voluptatum atqui turpis curabitur sea dicant qualisque sententiae " +
-        "rutrum maluisset persecuti pretium interdum diam constituam auctor montes error sed vim " +
-        "lacinia semper hinc"
-)
+    var num by remember { mutableStateOf(0) }
+    val tabs = listOf("Tab One", "Tab Two", "Tab Three")
+    TabRow(selectedTabIndex = num) {
+        tabs.forEachIndexed { index, name ->
+            Tab(
+                selected = num == index,
+                onClick = { num = index }
+            ) {
+                Text(name)
+            }
         }
+    }
+    when (num) {
+        0 -> {
+            Text(
+                "ne non putent nostra habeo blandit lacus comprehensam luctus dicant scripserit" +
+                        " sociis facilisi enim impetus noster quaeque non expetenda adhuc voluptatum vituperatoribus " +
+                        "conclusionemque regione erat voluptatum atqui turpis curabitur sea dicant qualisque sententiae " +
+                        "rutrum maluisset persecuti pretium interdum diam constituam auctor montes error sed vim " +
+                        "lacinia semper hinc"
+            )
+        }
+        1 -> { Text("Tab Two")}
+        2-> { Text("Tab Three") }
     }
 }
 
