@@ -59,7 +59,8 @@ fun Screen25() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(48.dp)
+        verticalArrangement = Arrangement.spacedBy(48.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         WebCard()
         AltCard()
@@ -109,7 +110,7 @@ fun Chip(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun FilterFlow() {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         for (i in 0..9) {
             Chip(randomString(), modifier = Modifier.padding(0.dp, 8.dp))
@@ -213,12 +214,6 @@ fun SpaceThing() {
 
 @Composable
 fun TabThing() {
-    var selected by remember { mutableStateOf(false) }
-    Button(
-        onClick = { selected = !selected }
-    ) {
-        Text("Tab")
-    }
     var num by remember { mutableStateOf(0) }
     val tabs = listOf("Tab One", "Tab Two", "Tab Three")
     TabRow(selectedTabIndex = num) {
