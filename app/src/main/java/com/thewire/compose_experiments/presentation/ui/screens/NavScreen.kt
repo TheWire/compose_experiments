@@ -155,6 +155,11 @@ fun NavScreen(
                 Text("To Screen 25")
             }
             Button(
+                onClick = { navController.navigate("TEST_ROUTE_26") }
+            ) {
+                Text("Constraint Layout")
+            }
+            Button(
                 onClick = {
                     scope.launch {
                         drawerState.open()
