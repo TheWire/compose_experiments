@@ -22,12 +22,11 @@ fun Screen24() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState(pageCount = {10})
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.Magenta),
-            pageCount = 10,
             state = pagerState
         ) { page ->
             Text(
@@ -37,12 +36,11 @@ fun Screen24() {
                     .background(color = Color.Green)
             )
         }
-        val pagerState2 = rememberPagerState()
+        val pagerState2 = rememberPagerState(pageCount = {10})
         VerticalPager(
             modifier = Modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.DarkGray),
-            pageCount = 10,
             state = pagerState2,
         ) { page ->
             Text(
