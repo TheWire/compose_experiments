@@ -24,5 +24,20 @@ fun Screen23(viewModel: ExperimentalViewModel23, str: String, navController: Nav
         ) {
             Text("to 23 again")
         }
+        OtherThing(num = viewModel.someVal)
     }
+}
+
+@Composable
+fun OtherThing(num: Int) {
+    Column() {
+        Text(num.toString())
+        AnotherThing(num = num)
+    }
+    
+}
+
+@Composable 
+fun AnotherThing(num: Int) {
+    Text(num.toString())
 }
